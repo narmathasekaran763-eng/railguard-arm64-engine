@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>RailGuard-ARM64</title>
+<style>
+body{background:#090d16;color:#f1f5f9;font-family:sans-serif;margin:0;padding:20px}
+.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;padding-bottom:12px}
+.btn{background:#2563eb;color:#fff;border:0;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
+.base{background:#dc2626}.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-top:20px}
+.card{background:#111827;border:1px solid #1f2937;border-radius:12px;padding:16px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.kpi{background:#0f172a;padding:14px;border-radius:8px}.val{font-size:26px;font-weight:800;color:#38bdf8}
+.ok{margin-top:12px;padding:12px;border-radius:8px;font-weight:700;text-align:center;background:#064e3b;color:#6ee7b7}
+.bad{background:#7f1d1d;color:#fecaca}
+</style></head><body>
+<div class="top"><div><h2 style="margin:0">RailGuard-ARM64: Cloud-Scale Safety</h2><small>C++20 Arena • Lock-Free Ring Buffer • INT8 AWS Graviton</small></div>
+<button id="b" class="btn" onclick="tog()">Mode: C++20 ARM64 (Compare Python)</button></div>
+<div class="grid"><div class="card"><h3>Live Corridor Feed</h3><img id="img" src="live_frame.jpg" style="width:100%;border-radius:8px"><div id="al" class="ok">CLEAR</div></div>
+<div class="card"><h3 id="pt">C++20 INT8 Silicon Telemetry</h3><div class="kpis">
+<div class="kpi"><div>P99 Latency</div><div class="val" id="p99">--</div></div>
+<div class="kpi"><div>Throughput</div><div class="val" id="fps">--</div></div>
+<div class="kpi"><div>Peak RAM</div><div class="val" id="ram">--</div></div>
+<div class="kpi"><div>Cost / 1M Frames</div><div class="val" id="cst">--</div></div></div></div></div>
+<script>
+let base=false;function tog(){base=!base;document.getElementById('b').className=base?'btn base':'btn';document.getElementById('pt').innerText=base?'Python FP32 Baseline':'C++20 INT8 Silicon Telemetry'}
+setInterval(async()=>{try{document.getElementById('img').src='live_frame.jpg?t='+Date.now();let d=await(await fetch(base?'baseline_metrics.json':'telemetry_feed.json?t='+Date.now())).json();document.getElementById('p99').innerText=d.p99_ms.toFixed(2)+' ms';document.getElementById('fps').innerText=d.fps.toFixed(1)+' FPS';document.getElementById('ram').innerText=d.peak_ram_mb.toFixed(1)+' MB';document.getElementById('cst').innerText='$'+d.cost_per_1m_usd.toFixed(4);if(!base){let a=document.getElementById('al');a.innerText=d.hazards>0?'ALERT: '+d.hazards+' OBSTACLE(S)':'CLEAR (Frame '+d.frame+')';a.className=d.hazards>0?'ok bad':'ok'}}catch(e){}},250);
+</script></body></html>
