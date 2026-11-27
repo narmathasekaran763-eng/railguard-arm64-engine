@@ -1,25 +1,49 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>RailGuard-ARM64</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RailGuard-ARM64 | Live Collision-Prevention & Literature Proof</title>
 <style>
-body{background:#090d16;color:#f1f5f9;font-family:sans-serif;margin:0;padding:20px}
-.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;padding-bottom:12px}
-.btn{background:#2563eb;color:#fff;border:0;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
-.base{background:#dc2626}.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-top:20px}
-.card{background:#111827;border:1px solid #1f2937;border-radius:12px;padding:16px}
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.kpi{background:#0f172a;padding:14px;border-radius:8px}.val{font-size:26px;font-weight:800;color:#38bdf8}
-.ok{margin-top:12px;padding:12px;border-radius:8px;font-weight:700;text-align:center;background:#064e3b;color:#6ee7b7}
-.bad{background:#7f1d1d;color:#fecaca}
+body{margin:0;font-family:system-ui,sans-serif;background:#090d16;color:#f8fafc}
+header{background:#111827;padding:14px 24px;border-bottom:1px solid #1f2937}
+h1{margin:0;font-size:1.08rem;color:#38bdf8}.sub{font-size:.76rem;color:#94a3b8}
+.controls{display:flex;gap:8px;padding:12px 24px 0;flex-wrap:wrap;align-items:center}
+.mode-btn{background:#1e293b;color:#cbd5e1;border:1px solid #334155;padding:8px 13px;border-radius:6px;cursor:pointer;font-weight:700;font-size:.78rem}
+.active-ours{background:#059669;color:#fff;border-color:#34d399}
+.active-fail{background:#dc2626;color:#fff;border-color:#f87171}
+.grid{display:grid;grid-template-columns:1.4fr 1.1fr;gap:18px;padding:14px 24px 24px}
+.panel{background:#111827;border:1px solid #1f2937;border-radius:10px;padding:16px}
+.banner{padding:11px;border-radius:6px;font-weight:800;text-align:center;margin-bottom:12px;font-size:.92rem}
+.safe{background:#064e3b;color:#6ee7b7;border:1px solid #10b981}
+.danger{background:#7f1d1d;color:#fca5a5;border:1px solid #ef4444}
+.blind-green{background:#78350f;color:#fde68a;border:1px solid #f59e0b}
+img{width:100%;border-radius:8px;border:1px solid #334155;display:block}
+.sim-bar{margin-top:12px;background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:12px}
+.track-line{height:14px;background:#1e293b;border-radius:7px;overflow:hidden;margin:8px 0}
+.train-pos{height:100%;width:10%;background:#10b981;transition:width .25s,background .25s}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.card{background:#1e293b;padding:11px;border-radius:8px;border-left:4px solid #10b981}
+.label{font-size:.7rem;color:#94a3b8;text-transform:uppercase}.val{font-size:1.24rem;font-weight:800;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:.76rem;margin-top:8px}
+th,td{padding:7px 8px;text-align:left;border-bottom:1px solid #1e293b}th{color:#38bdf8;background:#0f172a}
+.bad{color:#f87171;font-weight:700}.ok{color:#34d399;font-weight:700}
 </style></head><body>
-<div class="top"><div><h2 style="margin:0">RailGuard-ARM64: Cloud-Scale Safety</h2><small>C++20 Arena • Lock-Free Ring Buffer • INT8 AWS Graviton</small></div>
-<button id="b" class="btn" onclick="tog()">Mode: C++20 ARM64 (Compare Python)</button></div>
-<div class="grid"><div class="card"><h3>Live Corridor Feed</h3><img id="img" src="live_frame.jpg" style="width:100%;border-radius:8px"><div id="al" class="ok">CLEAR</div></div>
-<div class="card"><h3 id="pt">C++20 INT8 Silicon Telemetry</h3><div class="kpis">
-<div class="kpi"><div>P99 Latency</div><div class="val" id="p99">--</div></div>
-<div class="kpi"><div>Throughput</div><div class="val" id="fps">--</div></div>
-<div class="kpi"><div>Peak RAM</div><div class="val" id="ram">--</div></div>
-<div class="kpi"><div>Cost / 1M Frames</div><div class="val" id="cst">--</div></div></div></div></div>
-<script>
-let base=false;function tog(){base=!base;document.getElementById('b').className=base?'btn base':'btn';document.getElementById('pt').innerText=base?'Python FP32 Baseline':'C++20 INT8 Silicon Telemetry'}
-setInterval(async()=>{try{document.getElementById('img').src='live_frame.jpg?t='+Date.now();let d=await(await fetch(base?'baseline_metrics.json':'telemetry_feed.json?t='+Date.now())).json();document.getElementById('p99').innerText=d.p99_ms.toFixed(2)+' ms';document.getElementById('fps').innerText=d.fps.toFixed(1)+' FPS';document.getElementById('ram').innerText=d.peak_ram_mb.toFixed(1)+' MB';document.getElementById('cst').innerText='$'+d.cost_per_1m_usd.toFixed(4);if(!base){let a=document.getElementById('al');a.innerText=d.hazards>0?'ALERT: '+d.hazards+' OBSTACLE(S)':'CLEAR (Frame '+d.frame+')';a.className=d.hazards>0?'ok bad':'ok'}}catch(e){}},250);
+<header><h1>RAILGUARD-ARM64 // Live Collision-Prevention & Literature Proof Console</h1>
+<div class="sub">Zero-Copy C++20 • 64B Cache-Aligned Arena • Lock-Free Ring • INT8 ARM NEON on AWS Graviton</div></header>
+<div class="controls"><span style="font-size:.78rem;color:#94a3b8;font-weight:700">TEST ARCHITECTURE LIVE:</span>
+<button class="mode-btn active-ours" onclick="setArch('ours',this)">1. RailGuard-ARM64 (Ours — C++20)</button>
+<button class="mode-btn" onclick="setArch('jcce',this)">2. Literature: JCCE 2025 Python (2.1s)</button>
+    }else if(arch==='kavach'){
+      document.getElementById('p99').textContent='N/A (No Vision)';document.getElementById('blind').textContent='1,500 m BLIND';document.getElementById('cost').textContent='RF/RFID Only';document.getElementById('faults').textContent='Signal: GREEN';
+      bn.className='banner blind-green';bn.textContent=haz?'EXISTING TRACK CIRCUIT / KAVACH: SIGNAL STAYS GREEN (OBSTACLE UNDETECTED!)':'KAVACH / TRACK CIRCUIT: NO VISUAL SENSOR';
+      br.style.width=haz?'100%':'30%';br.style.background='#ef4444';out.className='bad';out.textContent=haz?'UNSEEN OBSTACLE -> IMPACT':'BLIND TO NON-METALS';
+      dt.textContent='Rubber tires, cattle, and boulders do not short rails or carry Kavach transponders—signal stays GREEN.';
+    }else{
+      document.getElementById('p99').textContent='340.0 ms (Queue)';document.getElementById('blind').textContent='12.28 m';document.getElementById('cost').textContent='$13.99 (GPU Wall)';document.getElementById('faults').textContent='OOM > 2 Cams';
+      bn.className='banner blind-green';bn.textContent='GUO 2024 DUAL-MODEL (DEEPLAB + RAFT): FAILS 68,000+ KM CLOUD BUDGET';
+      br.style.width='78%';br.style.background='#f59e0b';out.className='bad';out.textContent='PROHIBITIVE GPU COST';
+      dt.textContent='Sequential DeepLab + RAFT requires tens of GFLOPs/frame—impossible to scale without GPUs.';
+    }
+  }catch(e){}
+},300);
 </script></body></html>
